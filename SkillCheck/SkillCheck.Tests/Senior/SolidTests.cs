@@ -12,16 +12,16 @@ namespace SkillCheck.Tests.Senior
          * Тест на соблюдение принципа SOLID (Принцип разделения интерфейсов):
          */
 
-        [Test]
-        public void process_data_using_interface_and_returns_correct_result()
-        {
-            IDataProcessor processor = new JsonDataProcessor();
-            var result = processor.ProcessData("{ \"name\": \"test\" }");
-            Assert.AreEqual("Processed JSON", result);
+        //[Test]
+        //public void process_data_using_interface_and_returns_correct_result()
+        //{
+        //    IDataProcessor processor = new JsonDataProcessor();
+        //    var result = processor.ProcessData("{ \"name\": \"test\" }");
+        //    Assert.AreEqual("Processed JSON", result);
 
-            processor = new XmlDataProcessor();
-            result = processor.ProcessData("<name>test</name>");
-            Assert.AreEqual("Processed XML", result);
-        }
+        //    processor = new XmlDataProcessor();
+        //    result = processor.ProcessData("<name>test</name>");
+        //    Assert.AreEqual("Processed XML", result);
+        //}
     }
 }

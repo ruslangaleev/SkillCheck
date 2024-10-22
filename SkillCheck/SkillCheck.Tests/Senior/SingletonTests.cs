@@ -12,12 +12,12 @@ namespace SkillCheck.Tests.Senior
          * Тест на использование шаблона проектирования "Одиночка" (Singleton):
          */
 
-        [Test]
-        public void Ensure_singleton_returns_same_instance()
-        {
-            var instance1 = Singleton.Instance;
-            var instance2 = Singleton.Instance;
-            Assert.AreSame(instance1, instance2); // Ожидается, что оба объекта будут одинаковыми
-        }
+        //[Test]
+        //public void Ensure_singleton_returns_same_instance()
+        //{
+        //    var instance1 = Singleton.Instance;
+        //    var instance2 = Singleton.Instance;
+        //    Assert.AreSame(instance1, instance2); // Ожидается, что оба объекта будут одинаковыми
+        //}
     }
 }

@@ -27,10 +27,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Senior\" />
-  </ItemGroup>
-
-  <ItemGroup>
     <ProjectReference Include="..\SkillCheck\SkillCheck.csproj" />
   </ItemGroup>
 

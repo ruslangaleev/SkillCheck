@@ -1,11 +1,4 @@
-﻿using Microsoft.VisualStudio.TestPlatform.Utilities.Helpers;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace SkillCheck.Tests.Junior
+﻿namespace SkillCheck.Tests.Junior
 {
     public class FileTests
     {

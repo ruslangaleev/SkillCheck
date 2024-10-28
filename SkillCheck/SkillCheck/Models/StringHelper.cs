@@ -39,6 +39,27 @@
             return str1 + str2; // Конкатенируем строки
         }
 
+        // Метод для фильтрации строк по заданной длине
+        public static List<string> FilterByLength(List<string> strings, int length)
+        {
+            if (strings == null)
+            {
+                throw new ArgumentNullException(nameof(strings), "Список строк не должен быть null.");
+            }
 
+            return strings.Where(s => s.Length >= length).ToList();
+        }
+
+        // Метод для преобразования всех строк в верхний регистр
+        public static List<string> ConvertToUpper(List<string> strings)
+        {
+            if (strings == null)
+            {
+                throw new ArgumentNullException(nameof(strings), "Список строк не должен быть null.");
+            }
+
+            // Преобразование строк в верхний регистр и возвращение нового списка
+            return strings.ConvertAll(s => s.ToUpper());
+        }
     }
 }

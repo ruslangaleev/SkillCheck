@@ -2,6 +2,10 @@
 {
     public class CalculatorTests
     {
+        /*
+         * Здесь тест необходимо только раскомментировать
+         */
+
         //private readonly Calculator _calculator = new Calculator();
 
         //[Theory]

@@ -1,5 +1,6 @@
 ﻿using Microsoft.Extensions.Configuration.UserSecrets;
 using NUnit.Framework;
+using NUnit.Framework.Legacy;
 using SkillCheck.Models;
 using System;
 using System.Collections.Generic;
@@ -51,14 +52,14 @@ namespace SkillCheck.Tests.Junior
         public void check_if_number_is_prime_and_returns_true()
         {
             bool result = MathHelper.IsPrime(7);
-            Assert.IsTrue(result); // 7 — простое число
+            ClassicAssert.IsTrue(result); // 7 — простое число
         }
 
         [Test]
         public void check_if_number_is_not_prime_and_returns_false()
         {
             bool result = MathHelper.IsPrime(10);
-            Assert.IsFalse(result); // 10 — не является простым числом
+            ClassicAssert.IsFalse(result); // 10 — не является простым числом
         }
     }
 }

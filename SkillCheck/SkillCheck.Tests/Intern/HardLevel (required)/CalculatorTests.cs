@@ -1,4 +1,7 @@
-﻿namespace SkillCheck.Tests.Intern.HardLevel__required_
+﻿using Xunit;
+using SkillCheck.Helpers;
+
+namespace SkillCheck.Tests.Intern.HardLevel__required_
 {
     public class CalculatorTests
     {

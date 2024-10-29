@@ -5,6 +5,8 @@ public class Calculator
 {
     public int Calculate(string equation)
     {
+        if (string.IsNullOrEmpty(equation)) return 0;
+
         Stack<int> numbers = new Stack<int>();
         Stack<char> operators = new Stack<char>();
 

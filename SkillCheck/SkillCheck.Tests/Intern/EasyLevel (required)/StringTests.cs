@@ -1,5 +1,5 @@
-﻿using Xunit;
-using SkillCheck.Helpers;
+﻿using SkillCheck.Helpers;
+using Xunit;
 
 namespace SkillCheck.Tests.Intern
 {

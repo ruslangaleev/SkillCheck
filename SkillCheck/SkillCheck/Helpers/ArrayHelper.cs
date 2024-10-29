@@ -4,8 +4,8 @@ namespace SkillCheck.Helpers
     {
         public static int Max(int[] arr)
         {
-            if (arr.Length == 0) {
-                throw new ArgumentException("Массив не должен быть пустым.", nameof(arr));
+            if (arr == null or arr.Length == 0) {
+                throw new ArgumentException("Array can't be emptry.", nameof(arr));
 
             }
             int max = arr[0];

@@ -181,7 +181,6 @@ namespace SkillCheck.Tests.Junior.IntegrationTests
             var response2 = await _client.PostAsync("/api/notes/CreateNote", content2);
             response2.EnsureSuccessStatusCode();
 
-            // Получаем отсортированные заметки
             var response = await _client.GetAsync("/api/notes/SortNotesBySize");
             response.EnsureSuccessStatusCode();
 
@@ -217,19 +216,133 @@ namespace SkillCheck.Tests.Junior.IntegrationTests
             return createdTemplate.Id;
         }
 
+        [Fact]
+        public async Task DeleteTemplate_RemovesTemplate()
+        {
+            var newTemplate = new
+            {
+                Title = "Template to Delete",
+                Content = "Content"
+            };
+
+            var createContent = new StringContent(JsonSerializer.Serialize(newTemplate), Encoding.UTF8, "application/json");
+            var createResponse = await _client.PostAsync("/api/templates/CreateTemplate", createContent);
+            createResponse.EnsureSuccessStatusCode();
+
+            var createResponseContent = await createResponse.Content.ReadAsStringAsync();
+            var createdTemplate = JsonSerializer.Deserialize<NoteTemplate>(createResponseContent, new JsonSerializerOptions
+            {
+                PropertyNameCaseInsensitive = true
+            });
+
+            Assert.NotNull(createdTemplate);
+            var templateId = createdTemplate.Id;
+
+            var response = await _client.DeleteAsync($"/api/templates/DeleteTemplate/{templateId}");
+            response.EnsureSuccessStatusCode();
+
+            var getResponse = await _client.GetAsync($"/api/templates/GetTemplateById/{templateId}");
+            Assert.Equal(HttpStatusCode.NotFound, getResponse.StatusCode);
+        }
+
+        [Fact]
+        public async Task EditTemplate_UpdatesTemplate()
+        {
+            var newTemplate = new
+            {
+                Title = "Original Template Title",
+                Content = "Original Template Content"
+            };
+
+            var createContent = new StringContent(JsonSerializer.Serialize(newTemplate), Encoding.UTF8, "application/json");
+            var createResponse = await _client.PostAsync("/api/templates/CreateTemplate", createContent);
+            createResponse.EnsureSuccessStatusCode();
+
+            var createResponseContent = await createResponse.Content.ReadAsStringAsync();
+            var createdTemplate = JsonSerializer.Deserialize<NoteTemplate>(createResponseContent, new JsonSerializerOptions
+            {
+                PropertyNameCaseInsensitive = true
+            });
+
+            Assert.NotNull(createdTemplate);
+            var templateId = createdTemplate.Id;
+
+            var updatedTemplate = new
+            {
+                Title = "Updated Template Title",
+                Content = "Updated Template Content"
+            };
+
+            var updateContent = new StringContent(JsonSerializer.Serialize(updatedTemplate), Encoding.UTF8, "application/json");
+
+            var response = await _client.PutAsync($"/api/templates/EditTemplate/{templateId}", updateContent);
+            response.EnsureSuccessStatusCode();
+
+            var getResponse = await _client.GetAsync($"/api/templates/GetTemplateById/{templateId}");
+            getResponse.EnsureSuccessStatusCode();
+
+            var getResponseContent = await getResponse.Content.ReadAsStringAsync();
+            var template = JsonSerializer.Deserialize<NoteTemplate>(getResponseContent, new JsonSerializerOptions
+            {
+                PropertyNameCaseInsensitive = true
+            });
+
+            Assert.Equal("Updated Template Title", template.Title);
+            Assert.Equal("Updated Template Content", template.Content);
+        }
+
+        [Fact]
+        public async Task GetNotes_ReturnsListOfNotes()
+        {
+            var note1 = new
+            {
+                Title = "Note 1",
+                Content = "Content 1"
+            };
+
+            var note2 = new
+            {
+                Title = "Note 2",
+                Content = "Content 2"
+            };
+
+            var content1 = new StringContent(JsonSerializer.Serialize(note1), Encoding.UTF8, "application/json");
+            var content2 = new StringContent(JsonSerializer.Serialize(note2), Encoding.UTF8, "application/json");
+
+            var response1 = await _client.PostAsync("/api/notes/CreateNote", content1);
+            response1.EnsureSuccessStatusCode();
+
+            var response2 = await _client.PostAsync("/api/notes/CreateNote", content2);
+            response2.EnsureSuccessStatusCode();
+
+            var response = await _client.GetAsync("/api/notes/GetNotes");
+            response.EnsureSuccessStatusCode();
+
+            var responseContent = await response.Content.ReadAsStringAsync();
+            var notes = JsonSerializer.Deserialize<List<Note>>(responseContent, new JsonSerializerOptions
+            {
+                PropertyNameCaseInsensitive = true
+            });
+
+            Assert.NotNull(notes);
+            Assert.True(notes.Count >= 2, "There should be at least two notes.");
+            Assert.Contains(notes, n => n.Title == "Note 1");
+            Assert.Contains(notes, n => n.Title == "Note 2");
+        }
+
         /*
          * TODO:
          * Написать тесты, которые проверяют: 
-         *  - получение списка блокнотов 
-         *  - создание пустого блокнота или на основе шаблона
-         *  - удаление блокнота
+         *  - получение списка блокнотов — `GetNotes_ReturnsListOfNotes`
+         *  - создание пустого блокнота или на основе шаблона — `CreateEmptyNote_ReturnsCreatedNote`, `CreateNoteFromTemplate_ReturnsCreatedNote`
+         *  - удаление блокнота — `DeleteNote_RemovesNote`
          *  - редактирование блокнота: заголовок, содержимое. 
          *    В содержимое блокнота можно указывать: текст, чекбокс с текстом, тексту можно задавать шрифт, жирность.
-         *    Строчку можно перемещать по всему блокноту.
-         *  - Создание шаблонного блокнота
-         *  - Удаление шаблонного блокнота
-         *  - Редактирование шаблонного блокнота
-         *  - Сортировка блокнотов по размеру блокнота
+         *    Строчку можно перемещать по всему блокноту — `EditNote_UpdatesNote`
+         *  - создание шаблонного блокнота — `CreateNoteFromTemplate_ReturnsCreatedNote`
+         *  - удаление шаблонного блокнота — `DeleteTemplate_RemovesTemplate`
+         *  - редактирование шаблонного блокнота — `EditTemplate_UpdatesTemplate`
+         *  - сортировка блокнотов по размеру блокнота — `SortNotesBySize_ReturnsSortedNotes`
          */
     }
 }

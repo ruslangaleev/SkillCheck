@@ -1,13 +1,17 @@
-﻿namespace SkillCheck.Tests.Junior
+﻿using NUnit.Framework;
+using Xunit;
+
+namespace SkillCheck.Tests.Junior
 {
     public class FileTests
     {
-        //[Test]
-        //public void read_file_and_returns_content()
-        //{
-        //    var path = Path.Combine("Junior", "TestFiles", "test.txt");
-        //    string result = FileHelper.ReadFile(path);
-        //    Assert.That(result, Is.EqualTo("Hello, world!")); // Ожидается содержимое файла "Hello, world!"
-        //}
+        [Fact]
+        public void read_file_and_returns_content()
+        {
+           //string[] paths = {"SkillCheck.Tests","Junior", "TestFiles", "test.txt"};
+           string fullPathFromArray = Path.Combine("SkillCheck","SkillCheck","SkillCheck.Tests","Junior", "TestFiles", "test.txt");
+           string result = FileHelper.ReadFile(@"C:\Users\Daniil\Desktop\web\SkillCheck\SkillCheck\SkillCheck.Tests\Junior\TestFiles\test.txt");
+           Xunit.Assert.Equal("Hello, world!", result); // Ожидается содержимое файла "Hello, world!"
+        }
     }
 }
